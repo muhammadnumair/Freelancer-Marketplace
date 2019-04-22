@@ -36,7 +36,7 @@
                   <div class="row top-sec">
                      <div class="col-lg-12">
                         <div class="col-lg-12 col-xs-12">
-                           <h4><a href="jobpost.html"><?php echo $row["title"]; ?></a></h4>
+                           <h4><a href="job?id=<?php echo $row["job_id"]; ?>"><?php echo $row["title"]; ?></a></h4>
                            <h5><?php echo getCategory($row["category_id"], $conn)["name"]; ?></h5>
                            <h6>Hourly $$ (intermediate) 40+ hours per week</h6>
                            <p><small>Posted <?php echo time_elapsed_string($row["posted_on"]); ?></small></p>

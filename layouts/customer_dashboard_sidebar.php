@@ -70,7 +70,7 @@
          </a>
       </li>
       <li>
-         <a href="password.html">
+         <a href="password">
          <i class="fa fa-lock"></i> <span>Change Password</span>
          </a>
       </li>
