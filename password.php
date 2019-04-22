@@ -64,7 +64,7 @@
                </div>
                <?php endif;?>
                <?php if(isset($_SESSION['success_msg'])):?>
-               <div class="alert alert-success" role="alert" style="font-family: 'Varela Round', sans-serif;"><?php echo $_SESSION['success_msg']; ?>               
+               <div class="alert alert-success" role="alert" style="font-family: 'Varela Round', sans-serif;"><?php echo $_SESSION['success_msg']; ?>  
                </div>
                <?php endif;?>
                <form method="POST" id="addform" action="">

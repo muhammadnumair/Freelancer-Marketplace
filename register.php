@@ -48,6 +48,7 @@
                     VALUES ('$name', '$email', '$username', '$password', '$user_role')";
                     //print_r($sql);exit;
                     if ($conn->query($sql) === TRUE) {
+                        $_SESSION['success_msg'] = "Registeration Successfull, Now You Can Login To Your Account";
                         header('Location: login.php');
                         die();
                     }

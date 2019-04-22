@@ -53,6 +53,11 @@
                                       <?php echo $_SESSION['error_msg']; ?>
                                     </div>
                                     <?php endif; ?>
+                                    <?php if(isset($_SESSION['success_msg'])):?>
+                                    <div class="alert alert-success" role="alert" style="font-family: 'Varela Round', sans-serif;"><?php echo $_SESSION['success_msg']; ?>               
+                                    </div>
+                                    <?php endif;?>
+                                    <?php unset($_SESSION['success_msg']); ?>
                                 </div>
                                 <!-- /.form-head -->
                                 <div class="form-body">

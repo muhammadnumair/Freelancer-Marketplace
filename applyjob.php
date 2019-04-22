@@ -1,6 +1,5 @@
 <?php include_once('extras/database.php'); ?>
 <?php session_start(); ?>
-<?php include_once('layouts/header.php'); ?>
 <?php
    if(isset($_GET['id'])){
       $job_id = $_GET['id'];
@@ -8,6 +7,7 @@
       header('Location: work.php');
    }
    
+   $user_id = $_SESSION['user_id'];
    $sql = "SELECT * from tbl_jobs where job_id = '$job_id'";
    $retval = mysqli_query($conn, $sql);
    if(mysqli_num_rows($retval) == 0){
@@ -18,8 +18,34 @@
    // Calculate Time Elapsed
    $sqli = "SELECT * from tbl_proposals where job_id = '$job_id'";
    $proposals = mysqli_query($conn, $sqli);
-?>
+   ?>
+   <?php 
+      unset($_SESSION['error_msg']);
+      unset($_SESSION['success_msg']);
+      unset($_SESSION['error']); 
+      if(isset($_POST['submit'])){
+         $error = 0;
+         $error_msg = "";
+         $description = $_POST['description'];
+         if($description != ""){
+            if($error == 0){
+               $sql = "INSERT INTO `tbl_proposals`(`job_id`, `user_id`, `status`, `description`) VALUES ('$job_id', '$user_id', 'Not Assigned', '$description')";
+               //print_r($sql);exit;
+               //print_r($sql);exit;
+               if ($conn->query($sql) === TRUE) {
+                  $_SESSION['success_msg'] = "Successfully Submitted Your Proposal";
+               }
+            }
+         }else{
+            $error = 1;
+            $error_msg = "Please Fill In All Required Fields";
+            $_SESSION['error'] = true;
+            $_SESSION['error_msg'] = $error_msg;
+         }
+      }
+   ?>
 <?php include_once('extras/functions.php'); ?>
+<?php include_once('layouts/header.php'); ?>
 <!-- ==============================================
    Frelance Post Section
    =============================================== -->
@@ -56,7 +82,7 @@
                         <p><?php echo getApplicants($job["job_id"], $conn);?></p>
                      </div>
                      <div class="col-lg-2">
-                        <a href="<?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'){echo '#';}else{echo 'applyjob?id='.$job_id;}?>" style="<?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'){echo 'color: currentColor; cursor: not-allowed; opacity: 0.5; text-decoration: none;';}?>" class="kafe-btn kafe-btn-mint-small"><i class="fa fa-align-left"></i> Apply</a>
+                        <a href="<?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'){echo '#';}else{echo 'applyjob';}?>" style="<?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'){echo 'color: currentColor; cursor: not-allowed; opacity: 0.5; text-decoration: none;';}?>" class="kafe-btn kafe-btn-mint-small"><i class="fa fa-align-left"></i> Apply</a>
                      </div>
                   </div>
                   <!-- /.col-lg-12 -->
@@ -83,10 +109,24 @@
                   <ul class="tr-list resume-info">
                      <li>
                         <div class="icon">
-                           <p class="tr-title"><i class="fa fa-black-tie" aria-hidden="true"></i> Job Description</p>
+                           <p class="tr-title"><i class="fa fa-black-tie" aria-hidden="true"></i> Apply For Job</p>
                         </div>
                         <div class="media-body">
-                           <?php echo $job['job_description']; ?>
+                           <?php if(isset($_SESSION['error_msg'])):?>
+                           <div class="alert alert-danger" role="alert" style="font-family: 'Varela Round', sans-serif;"><?php echo $_SESSION['error_msg']; ?>               
+                           </div>
+                           <?php endif;?>
+                           <?php if(isset($_SESSION['success_msg'])):?>
+                           <div class="alert alert-success" role="alert" style="font-family: 'Varela Round', sans-serif;"><?php echo $_SESSION['success_msg']; ?>  
+                           </div>
+                           <?php endif;?>
+                           <form method="POST" id="addform" action="">
+                              <div class="form-group">   
+                                 <label>Proposal Description</label>
+                                 <textarea name="description" class="form-control" rows="5" placeholder="Provide a more detailed description of your proposal to get better offers."></textarea>
+                              </div>
+                              <button class="kafe-btn kafe-btn-mint-small full-width" name="submit">Apply</button>
+                           </form>
                         </div>
                      </li>
                      <!-- /.career-objective-->       
@@ -95,65 +135,7 @@
                </div>
                <!-- /.description-profile -->   
             </div>
-            <!-- .card-box-profile-details -->  
-            <div class="work">
-               <div class="col-lg-12">
-                  <div class="icon">
-                     <p class="tr-title"><i class="fa fa-users" aria-hidden="true"></i> Applicants (<?php echo getApplicants($job["job_id"], $conn);?>)</p>
-                  </div>
-               </div>
-               <?php if(getApplicants($job["job_id"], $conn) == 0):?>
-                     <!-- <p class="tr-title">No Applicants For Now</p> -->
-               <?php else:?>
-                  <?php while($row = mysqli_fetch_array($proposals)):?>
-                     <div class="job">
-                        <div class="row bottom-sec">
-                           <div class="col-lg-12">
-                              <div class="col-lg-12">
-                                 <hr class="small-hr">
-                              </div>
-                              <div class="col-lg-12">
-                                 <div class="pull-left">
-                                    <a href="freelancer.html">
-                                    <img class="img-responsive" src="assets/img/users/1.jpg" alt="Image">
-                                    </a>
-                                 </div>
-                                 <!-- /.col-lg-2 -->
-                                 <h5><a href="#">  <?php echo getAuthor($row["user_id"], $conn)["full_name"]?> </a> </h5>
-                                 <?php $country = getCountry(getAuthor($row["user_id"], $conn)["country_id"],$conn)["country_name"]; ?>
-                                 <p><i class="fa fa-map-marker"></i> <?php if($country == ""){echo 'Not Specified'; }else{echo $country; }?></p>
-                                 <p class="p-star"> 
-                                    <i class="fa fa-star rating-star"></i>
-                                    <i class="fa fa-star rating-star"></i>
-                                    <i class="fa fa-star rating-star"></i>
-                                    <i class="fa fa-star rating-star"></i>
-                                    <i class="fa fa-star-o rating-star"></i>
-                                 </p>
-                              </div>
-                           </div>
-                           <!-- /.col-lg-12 -->
-                        </div>
-                        <!-- /.row -->
-                        <div class="row mid-sec">
-                           <div class="col-lg-12">
-                              <div class="col-lg-12">
-                                 <hr class="small-hr">
-                                 <p><?php echo shorter($row["description"]); ?></p>
-                                 <span class="label label-success">HTML 5</span>
-                                 <span class="label label-success">CSS3</span>
-                                 <span class="label label-success">PHP 5.4</span>
-                                 <span class="label label-success">Mysql</span>
-                                 <span class="label label-success">Bootstrap</span>
-                              </div>
-                              <!-- /.col-lg-12 -->
-                           </div>
-                           <!-- /.col-lg-12 -->
-                        </div>
-                        <!-- /.row -->
-                     </div>
-                  <?php endwhile;?>
-               <?php endif; ?>
-            </div>
+            <!-- .card-box-profile-details -->
             <!--/ .work -->       
          </div>
          <!-- .col-lg-9 -->
