@@ -10,6 +10,7 @@
          <i class="fa fa-life-ring"></i> <span>Dashboard</span>
          </a>
       </li>
+      <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'): ?>
       <li <?php if($currentPage == "contract"){echo "class='active'";}?>>
          <a href="contract">
          <i class="fa fa-align-left"></i> <span>Contracts</span>
@@ -27,6 +28,7 @@
             <li><a href="add-job"><i class="fa fa-circle-o"></i> Add new Job</a></li>
          </ul>
       </li>
+      <?php endif; ?>
       <li <?php if($currentPage == "proposals"){echo "class='active'";}?>>
          <a href="proposals">
          <i class="fa fa-clone"></i> <span>Proposals</span>

@@ -1,18 +1,22 @@
 <?php include_once('extras/database.php'); ?>
 <?php session_start(); ?>
 <?php include_once('layouts/header.php'); ?>
+<?php include_once('extras/functions.php'); ?>
 <?php
    //print_r($total_pages);exit;
-   $user_id = $_SESSION['user_id'];
-   if(isset($_GET['job'])){
-      $job_id = $_GET['job'];
-      $sql = "SELECT * FROM `tbl_proposals` where job_id = '$job_id'";
-   }else{
-      $sql = "SELECT * FROM `tbl_proposals` where job_id in (SELECT job_id FROM tbl_jobs WHERE user_id = '$user_id')";
-   }
+   if(getAuthor($user_id, $conn)["user_role"] == 'customer'){
+         $user_id = $_SESSION['user_id'];
+         if(isset($_GET['job'])){
+            $job_id = $_GET['job'];
+            $sql = "SELECT * FROM `tbl_proposals` where job_id = '$job_id'";
+         }else{
+            $sql = "SELECT * FROM `tbl_proposals` where job_id in (SELECT job_id FROM tbl_jobs WHERE user_id = '$user_id')";
+         }
+      }else{
+         $sql = "SELECT * FROM `tbl_proposals` where user_id = '$user_id'";
+      }
    $retval = mysqli_query($conn, $sql);
 ?>
-<?php include_once('extras/functions.php'); ?>
 <!-- ==============================================
    Dashboard Section
    =============================================== -->
@@ -51,10 +55,16 @@
                                  <?php if($row['status'] == "Assigned"): ?>
                                  <td><a href="workroom.html" class="kafe-btn kafe-btn-mint-small"> Go to Workroom</a></td>
                                  <?php else:?>
+                                 <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'): ?>
                                  <td>
                                  <a href="extras/assign_job?proposal_id=<?php echo $row['id'];?>&&job_id=<?php echo $row['job_id'];?>&&freelancer_id=<?php echo $row['user_id'];?>&&client_id=<?php echo $user_id;?>" class="btn btn-success btn-xs" data-toggle="tooltip" title="Assign the Job"><span class="fa fa-check"></span></a>
                                  <a href="#" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete"><span class="fa fa-trash"></span></a>
                                  </td>
+                                 <?php else: ?>
+                                 <td>
+                                  <a href="#" class="btn btn-success btn-xs" data-toggle="tooltip" title="Edit"><span class="fa fa-edit"></span></a>
+                                  <a href="#" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete"><span class="fa fa-trash"></span></a></td>
+                                 <?php endif; ?>
                                  <?php endif;?>
                               </tr>
                            <?php endwhile; ?>
