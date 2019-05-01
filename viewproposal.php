@@ -21,6 +21,7 @@
          <div class="col-sm-8 col-md-9">
             <div class="button-box">
                <a href="proposals" class="kafe-btn kafe-btn-mint-small">Back to Proposals</a>
+               <a href="reports/proposal.php?id=<?php echo $proposal_id;?>" class="kafe-btn kafe-btn-mint-small" target="_blank">Generate PDF</a>
             </div>
             <!-- /.prop-info -->	  
             <div class="work-box">

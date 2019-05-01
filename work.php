@@ -15,8 +15,14 @@
    $total_rows = mysqli_fetch_array($result)[0];
    $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-   //print_r($total_pages);exit;
    $sql = "SELECT * from tbl_jobs LIMIT $offset, $no_of_records_per_page";
+   if(isset($_GET['search'])){
+      $search = $_GET['search'];
+      $sql = "SELECT * from tbl_jobs Where title Like '$search%' LIMIT $offset, $no_of_records_per_page";
+      //print_r($sql); exit;
+   }
+
+   //print_r($total_pages);exit;
    $retval = mysqli_query($conn, $sql);
 ?>
 <?php include_once('extras/functions.php'); ?>
@@ -69,9 +75,15 @@
                         </div>
                         <div class="col-lg-6">
                            <div class="pull-left">
+                              <?php if(strlen(getProfilePhoto($row["user_id"], $conn)['profile_img']) > 2) : ?>
                               <a href="profile.html">
-                              <img class="img-responsive" src="assets/img/users/1.jpg" alt="Image">
+                              <img class="img-responsive" src="<?php echo getProfilePhoto($row['user_id'], $conn)['profile_img']; ?>" alt="Image">
                               </a>
+                              <?php else: ?>
+                              <a href="profile.html">
+                              <img class="img-responsive" src="uploads/profiles/default.jpg" alt="Image">
+                              </a>
+                              <?php endif; ?>
                            </div>
                            <!-- /.col-lg-2 -->
                            <h5> <?php echo getAuthor($row["user_id"], $conn)["full_name"]?></h5>
