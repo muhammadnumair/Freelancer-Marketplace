@@ -1,4 +1,9 @@
 <?php include_once('extras/functions.php'); ?>
+<?php
+   if(isset($_SESSION['login'])){
+      $user_id = $_SESSION['user_id'];
+   }
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -27,6 +32,11 @@
       <link type="text/css" href="assets/css/style.css" rel="stylesheet" />
       <link type="text/css" href="assets/css/login.css" rel="stylesheet" />
       <link href="assets/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+      <link href="assets/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+      <!-- Jquery UI CSS -->
+      <link href="assets/plugins/progress/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
+      <!-- Progress CSS -->
+      <link href="assets/plugins/progress/progress.css" rel="stylesheet" type="text/css" />
       <!-- ==============================================
          Feauture Detection
          =============================================== -->
@@ -57,9 +67,8 @@
                <div class="navbar-left">
                   <div class="collapse navbar-collapse" id="navbar-collapse">
                      <ul class="nav navbar-nav">
-                        <li><a href="hire.html">GoHire</a></li>
-                        <li><a href="work.php">GoWork</a></li>
-                        <li><a href="how.html">How it works</a></li>
+                        <li><a href="work">GoWork</a></li>
+                        <li><a href="how">How it works</a></li>
                      </ul>
                   </div>
                </div>
@@ -73,16 +82,18 @@
                      <?php if(isset($_SESSION['login'])): ?>
                      <li class="dropdown mega-avatar">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                           <span class="avatar w-32"><img src="assets/img/users/2.jpg" class="img-resonsive img-circle" width="25" height="25" alt="..."></span>
+                           <?php if(strlen(getProfilePhoto($user_id, $conn)['profile_img']) > 2) : ?>
+                           <span class="avatar w-32"><img src="<?php echo getProfilePhoto($user_id, $conn)['profile_img']; ?>" class="img-resonsive img-circle" width="25" height="25" alt="..."></span>
+                           <?php else: ?>
+                           <span class="avatar w-32"><img src="uploads/profiles/default.jpg" class="img-resonsive img-circle" width="25" height="25" alt="..."></span>
+                           <?php endif; ?>
                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
                            <span>
-
-                           <?php $user_id = $_SESSION['user_id'];?>
                            <?php echo getAuthor($user_id, $conn)["full_name"]?>
                            </span>
                         </a>
                         <div class="dropdown-menu w dropdown-menu-scale pull-right">
-                           <a class="dropdown-item" href="dashboard.php"><span>Dashboard</span></a>
+                           <a class="dropdown-item" href="dashboard"><span>Dashboard</span></a>
                            <a class="dropdown-item" href="profile.html"><span>Profile</span></a>
                            <a class="dropdown-item" href="editprofile.html"><span>Settings</span></a>
                            <a class="dropdown-item" href="extras/logout.php">Sign out</a>

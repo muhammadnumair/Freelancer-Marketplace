@@ -121,4 +121,57 @@
       $assignement = mysqli_num_rows($retvali);
       return $assignement;
    }
+
+   // Get Milestone By Id
+   function getMilestoneById($milestone_id, $con){
+      $sqli = "SELECT * from tbl_job_milestone where id = '$milestone_id'";
+      $retvali = mysqli_query($con, $sqli);
+      $proposal = mysqli_fetch_array($retvali);
+      return $proposal;
+   }
+
+   // Get Milestone By Id
+   function getUsersCount($con){
+      $sqli = "SELECT * from tbl_user";
+      $retvali = mysqli_query($con, $sqli);
+      $proposal = mysqli_num_rows($retvali);
+      return $proposal;
+   }
+
+   // Get Milestone By Id
+   function getJobsCount($con){
+      $sqli = "SELECT * from tbl_jobs";
+      $retvali = mysqli_query($con, $sqli);
+      $proposal = mysqli_num_rows($retvali);
+      return $proposal;
+   }
+
+   // Get Freelancers Count
+   function getFreelancersCount($con){
+      $sqli = "SELECT * from tbl_user where user_role = 'freelancer'";
+      $retvali = mysqli_query($con, $sqli);
+      $proposal = mysqli_num_rows($retvali);
+      return $proposal;
+   }
+
+   function getCustomersCount($con){
+      $sqli = "SELECT * from tbl_user where user_role = 'customer'";
+      $retvali = mysqli_query($con, $sqli);
+      $proposal = mysqli_num_rows($retvali);
+      return $proposal;
+   }
+
+  // Get Proposals Count
+   function getProposalsCount($con){
+      $sqli = "SELECT * from tbl_proposals";
+      $retvali = mysqli_query($con, $sqli);
+      $proposal = mysqli_num_rows($retvali);
+      return $proposal;
+   }
+
+   function getProfilePhoto($user_id, $con){
+      $sqli = "SELECT profile_img from tbl_user where user_id = '$user_id'";
+      $retvali = mysqli_query($con, $sqli);
+      return mysqli_fetch_array($retvali);
+   }
 ?>

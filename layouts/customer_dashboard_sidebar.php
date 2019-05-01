@@ -10,12 +10,16 @@
          <i class="fa fa-life-ring"></i> <span>Dashboard</span>
          </a>
       </li>
-      <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'): ?>
+
+      <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer' || getAuthor($user_id, $conn)["user_role"] == 'freelancer'): ?>
       <li <?php if($currentPage == "contract"){echo "class='active'";}?>>
          <a href="contract">
          <i class="fa fa-align-left"></i> <span>Contracts</span>
          </a>
       </li>
+      <?php endif; ?>
+      
+      <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'): ?>
       <li class='<?php if($currentPage == "jobs" || $currentPage == "add-job"){echo "treeview active menu-open";}else{echo "treeview";}?>'>
          <a href="#">
          <i class="fa fa-files-o"></i> <span>Jobs</span>
@@ -29,12 +33,36 @@
          </ul>
       </li>
       <?php endif; ?>
+
+      <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer' || getAuthor($user_id, $conn)["user_role"] == 'freelancer'): ?>
       <li <?php if($currentPage == "proposals"){echo "class='active'";}?>>
          <a href="proposals">
          <i class="fa fa-clone"></i> <span>Proposals</span>
          </a>
       </li>
+      <?php endif; ?>
+
+      <?php if(getAuthor($user_id, $conn)["user_role"] == 'admin'): ?>
+      <li <?php if($currentPage == "freelancers"){echo "class='active'";}?>>
+         <a href="freelancers">
+         <i class="fa fa-user"></i> <span>Freelancers</span>
+         </a>
+      </li>
+      <li <?php if($currentPage == "clients"){echo "class='active'";}?>>
+         <a href="clients">
+         <i class="fa fa-users"></i> <span>Clients</span>
+         </a>
+      </li>
+      <li <?php if($currentPage == "categories"){echo "class='active'";}?>>
+         <a href="categories">
+         <i class="fa fa-bars"></i> <span>Categories</span>
+         </a>
+      </li>
+      <?php endif; ?>
+
    </ul>
+
+   <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer' || getAuthor($user_id, $conn)["user_role"] == 'freelancer'): ?>
    <ul class="sidebar-menu" data-widget="tree">
       <li class="treeview">
          <a href="#">
@@ -59,7 +87,7 @@
          </a>
       </li>
    </ul>
-
+   <?php endif; ?>
    <ul class="sidebar-menu" data-widget="tree">
       <li>
          <a href="editprofile.html">
@@ -67,7 +95,7 @@
          </a>
       </li>
       <li>
-         <a href="profileimage.html">
+         <a href="profileimage">
          <i class="fa fa-image"></i> <span>Change Profile Image</span>
          </a>
       </li>

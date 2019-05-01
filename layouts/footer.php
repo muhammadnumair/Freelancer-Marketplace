@@ -50,6 +50,52 @@
      $("#example1").dataTable();
    });
 </script>
-<script src="assets/js/kafe.js"></script>
+<script src="assets/plugins/knob/knob.min.js"></script>
+   <script>
+      $(function() {
+         $(".knob").knob({
+         "height": 75,
+         "readOnly": true,
+         });
+      });
+   </script>   
+    <!-- Datetime Picker -->
+    <script src="assets/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script>
+     $('.start').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0,
+        showMeridian: 1, 
+        startDate: new Date(),
+        pickTime: false, 
+        minView: 2,      
+        pickerPosition: "bottom-left",
+    });
+     $('.end').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0,
+        showMeridian: 1, 
+        startDate: new Date(),
+        pickTime: false, 
+        minView: 2,      
+        pickerPosition: "bottom-left",
+    });
+   </script>   
+    <!-- Jquery UI 1.10.3 -->
+   <script src="assets/plugins/progress/jquery-ui-1.10.3.custom.min.js"></script>
+    <!-- UI Slider Progress -->
+    <script src="assets/plugins/progress/progress.js"></script>  
+   <script src="assets/js/kafe.js"></script>
+
 </body>
 </html>
