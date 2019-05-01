@@ -1,5 +1,6 @@
 <?php include_once('extras/database.php'); ?>
 <?php session_start(); ?>
+<?php include_once('extras/functions.php'); ?>
 <?php include_once('layouts/header.php'); ?>
 <!-- ==============================================
    Dashboard Section
@@ -14,8 +15,10 @@
                   <div class="col-sm-3">
                      <div class="fun-fact">
                         <div class="media-body">
-                           <h1>$0.00</h1>
-                           <span>Total Amount</span>
+                           <?php if(getAuthor($user_id, $conn)["user_role"] == 'admin'): ?>
+                           <h1><?php echo sprintf('%02d', getFreelancersCount($conn)); ?></h1>
+                           <span>Freelancers</span>
+                           <?php endif; ?>
                         </div>
                      </div>
                      <!-- /.fun-fact -->
@@ -24,8 +27,10 @@
                   <div class="col-sm-3">
                      <div class="fun-fact">
                         <div class="media-body">
-                           <h1>0</h1>
-                           <span>Contracts</span>
+                           <?php if(getAuthor($user_id, $conn)["user_role"] == 'admin'): ?>
+                           <h1><?php echo sprintf('%02d', getCustomersCount($conn)); ?></h1>
+                           <span>Clients</span>
+                           <?php endif; ?>
                         </div>
                      </div>
                      <!-- /.fun-fact -->
@@ -34,8 +39,10 @@
                   <div class="col-sm-3">
                      <div class="fun-fact">
                         <div class="media-body">
-                           <h1>0:00:00</h1>
-                           <span>Total Logged</span>
+                           <?php if(getAuthor($user_id, $conn)["user_role"] == 'admin'): ?>
+                           <h1><?php echo sprintf('%02d', getJobsCount($conn)); ?></h1>
+                           <span>Jobs Posted</span>
+                           <?php endif; ?>
                         </div>
                      </div>
                      <!-- /.fun-fact -->
@@ -44,8 +51,8 @@
                   <div class="col-sm-3">
                      <div class="fun-fact">
                         <div class="media-body">
-                           <h1>0</h1>
-                           <span>Total Milestones</span>
+                           <h1><?php echo sprintf('%02d', getProposalsCount($conn)); ?></h1>
+                           <span>Proposal Submissions</span>
                         </div>
                      </div>
                      <!-- /.fun-fact -->
@@ -55,11 +62,13 @@
                <!-- ./row -->
             </div>
             <!-- /.dashboard-info -->
+            <?php if(getAuthor($user_id, $conn)["user_role"] == 'customer' || getAuthor($user_id, $conn)["user_role"] == 'freelancer'): ?>
             <div class="prop-info text-center">
                <i class="fa fa-align-left fa-5x"></i>
                <h3>You have no recent contracts.</h3>
                <p>Look for work here <a href="work">Home</a></p>
             </div>
+            <?php endif; ?>
             <!-- /.prop-info -->
          </div>
          <!-- /.col-md-9 -->
