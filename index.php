@@ -1,5 +1,11 @@
 <?php include_once('extras/database.php'); ?>
 <?php session_start(); ?>
+<?php include_once('extras/functions.php'); ?>
+<?php
+   $sql = "SELECT * FROM tbl_categories";
+   $categories = mysqli_query($conn, $sql);
+?>
+
 <?php include_once('layouts/header.php'); ?>
 
     <!-- ==============================================
@@ -85,104 +91,20 @@
             </div>
             <div class="row">
                 <div class="category-list tr-list">
-
+                    <?php while($row = mysqli_fetch_array($categories)):?>
                     <div class="col-lg-3">
                         <div class="category-box">
                             <a href="hire.html">
-                                <span class="icon"><i class="fa fa-code fa-2x"></i></span>
-                                <span class="category-title">Web & Mobile Development</span>
+                                <span class="icon"><i class="<?php echo $row['icon']; ?>"></i></span>
+                                <span class="category-title"><?php echo $row['name']; ?></span>
                                 <span class="category-quantity">(1298)</span>
                             </a>
                         </div>
                         <!-- category-box -->
                     </div>
                     <!-- col-lg-3 -->
-                    <div class="col-lg-3">
-                        <div class="category-box">
-                            <a href="hire.html">
-                                <span class="icon"><i class="fa fa-eye fa-2x"></i></span>
-                                <span class="category-title">Design, Arts & Multimedia</span>
-                                <span class="category-quantity">(76212)</span>
-                            </a>
-                        </div>
-                        <!-- category-box -->
-                    </div>
-                    <!-- col-lg-3 -->
-                    <div class="col-lg-3">
-                        <div class="category-box">
-                            <a href="hire.html">
-                                <span class="icon"><i class="fa fa-edit fa-2x"></i></span>
-                                <span class="category-title">Writing & Translation</span>
-                                <span class="category-quantity">(212)</span>
-                            </a>
-                        </div>
-                        <!-- category-box -->
-                    </div>
-                    <!-- col-lg-3 -->
-                    <div class="col-lg-3">
-                        <div class="category-box">
-                            <a href="hire.html">
-                                <span class="icon"><i class="fa fa-edit fa-2x"></i></span>
-                                <span class="category-title">Admin Support</span>
-                                <span class="category-quantity">(972)</span>
-                            </a>
-                        </div>
-                        <!-- category-box -->
-                    </div>
-                    <!-- col-lg-3 -->
-
+                    <?php endwhile; ?>
                 </div>
-                <!-- category-list -->
-                <div class="category-list tr-list">
-
-                    <div class="col-lg-3">
-                        <div class="category-box">
-                            <a href="hire.html">
-                                <span class="icon"><i class="fa fa-table fa-2x"></i></span>
-                                <span class="category-title">Management & Finance</span>
-                                <span class="category-quantity">(1298)</span>
-                            </a>
-                        </div>
-                        <!-- category-box -->
-                    </div>
-                    <!-- col-lg-3 -->
-                    <div class="col-lg-3">
-                        <div class="category-box">
-                            <a href="hire.html">
-                                <span class="icon"><i class="fa fa-bullhorn fa-2x"></i></span>
-                                <span class="category-title">Sales & Marketing</span>
-                                <span class="category-quantity">(76212)</span>
-                            </a>
-                        </div>
-                        <!-- category-box -->
-                    </div>
-                    <!-- col-lg-3 -->
-                    <div class="col-lg-3">
-                        <div class="category-box">
-                            <a href="hire.html">
-                                <span class="icon"><i class="fa fa-wrench fa-2x"></i></span>
-                                <span class="category-title">Engineering & Architecture</span>
-                                <span class="category-quantity">(1298)</span>
-                            </a>
-                        </div>
-                        <!-- category-box -->
-                    </div>
-                    <!-- col-lg-3 -->
-                    <div class="col-lg-3">
-                        <div class="category-box">
-                            <a href="hire.html">
-                                <span class="icon"><i class="fa fa-legal fa-2x"></i></span>
-                                <span class="category-title">Legal</span>
-                                <span class="category-quantity">(76212)</span>
-                            </a>
-                        </div>
-                        <!-- category-box -->
-                    </div>
-                    <!-- col-lg-3 -->
-
-                </div>
-                <!-- category-list -->
-
             </div>
             <!-- row -->
         </div>
@@ -199,14 +121,14 @@
                 <div class="col-sm-4">
                     <div class="fun-fact">
                         <i class="fa fa-users fa-3x"></i>
-                        <h4 class="counter">5,798,298</h4>
+                        <h4 class="counter"><?php echo getUsersCount($conn); ?></h4>
                         <span>Total Users</span>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="fun-fact">
                         <i class="fa fa-file-text-o fa-3x"></i>
-                        <h4 class="counter">12,043</h4>
+                        <h4 class="counter"><?php echo getJobsCount($conn); ?></h4>
                         <span>Job Posts</span>
                     </div>
                 </div>
