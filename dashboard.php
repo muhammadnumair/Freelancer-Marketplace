@@ -11,6 +11,7 @@
          <?php include_once('layouts/customer_dashboard_sidebar.php'); ?>
          <div class="col-sm-8 col-md-9">
             <div class="dashboard-info">
+               <?php if(getAuthor($user_id, $conn)["user_role"] == 'admin'): ?>
                <div class="row">
                   <div class="col-sm-3">
                      <div class="fun-fact">
@@ -59,6 +60,7 @@
                   </div>
                   <!-- /.col-sm-4 -->
                </div>
+               <?php endif;?>
                <!-- ./row -->
             </div>
             <!-- /.dashboard-info -->
