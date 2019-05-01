@@ -24,6 +24,7 @@
             <div class="box">
                <div class="box-header">
                   <h3 class="box-title">Freelancers</h3>
+                  <a href="reports/freelancers.php" class="kafe-btn kafe-btn-mint-small" target="_blank">Generate PDF</a>
                </div>
                <!-- /.box-header -->
                <div class="box-body">
