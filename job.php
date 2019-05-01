@@ -96,8 +96,15 @@
                <div class="description-profile">
                   <ul class="tr-list resume-info">
                      <li>
-                        <div class="icon">
-                           <p class="tr-title"><i class="fa fa-black-tie" aria-hidden="true"></i> Job Description</p>
+                        <div class="row">
+                           <div class="col-sm-9">
+                              <div class="icon">
+                                 <p class="tr-title"><i class="fa fa-black-tie" aria-hidden="true"></i> Job Description</p>
+                              </div>
+                           </div>
+                           <div class="col-sm-3">
+                              <a href="<?php echo 'reports/job?id='.$job_id;?>" class="kafe-btn kafe-btn-mint-small"><i class="fa fa-align-left"></i> Print PDF</a>
+                           </div>
                         </div>
                         <div class="media-body">
                            <?php echo $job['job_description']; ?>
