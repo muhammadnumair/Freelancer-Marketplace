@@ -1,12 +1,30 @@
 <?php include_once('extras/database.php'); ?>
 <?php session_start(); ?>
+<?php include_once('extras/functions.php'); ?>
 <?php
+   unset($_SESSION['error_msg']);
+   unset($_SESSION['success_msg']);
    if(isset($_GET['id'])){
       $job_id = $_GET['id'];
    }else{
       header('Location: work.php');
    }
+
+   if(!isset($_SESSION['login'])){
+      $_SESSION['error_msg'] = "Please Login First To Apply To This Job";
+      header('Location: job?id='.$job_id);
+   }
+
+   if(isset($_SESSION['login']) && getAuthor($_SESSION['user_id'], $conn)["user_role"] == 'customer'){
+         $_SESSION['error_msg'] = "You need to be a freelancer to apply to this job";
+         header('Location: job?id='.$job_id);
+   }
    
+   if(getJobAssignment($job_id, $conn)['job_status'] == "complete"){
+      $_SESSION['error_msg'] = "The job is already completed";
+      header('Location: job?id='.$job_id);
+   }
+
    $user_id = $_SESSION['user_id'];
    $sql = "SELECT * from tbl_jobs where job_id = '$job_id'";
    $retval = mysqli_query($conn, $sql);
@@ -19,9 +37,7 @@
    $sqli = "SELECT * from tbl_proposals where job_id = '$job_id'";
    $proposals = mysqli_query($conn, $sqli);
    ?>
-   <?php 
-      unset($_SESSION['error_msg']);
-      unset($_SESSION['success_msg']);
+   <?php
       unset($_SESSION['error']); 
       if(isset($_POST['submit'])){
          $error = 0;

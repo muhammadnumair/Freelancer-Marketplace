@@ -3,9 +3,15 @@
 <?php include_once('extras/functions.php'); ?>
 <?php 
    $user_id = $_SESSION['user_id'];
-   $sql = "SELECT * FROM tbl_jobs_assigned where client_id = '$user_id'";
+   if(getAuthor($user_id, $conn)["user_role"] == 'customer'){
+      $sql = "SELECT * FROM tbl_jobs_assigned where client_id = '$user_id'";
+   }else{
+      $sql = "SELECT * FROM tbl_jobs_assigned where freelancer_id = '$user_id'";
+   }
+
    $retval = mysqli_query($conn, $sql);
 ?>
+
 <?php include_once('layouts/header.php'); ?>
 <!-- ==============================================
    Dashboard Section
@@ -18,6 +24,7 @@
             <div class="box">
                <div class="box-header">
                   <h3 class="box-title">Contracts</h3>
+                  <a href="reports/contracts.php" class="kafe-btn kafe-btn-mint-small" target="_blank">Generate PDF</a>
                </div>
                <!-- /.box-header -->
                <div class="box-body">
@@ -37,8 +44,8 @@
                                  <img src="assets/img/users/1.jpg" class="img-responsive img-circle pull-left" width="50" height="50" alt="Image" />
                                  <a href="company.html"><?php echo getAuthor($row['freelancer_id'], $conn)['full_name']; ?></a>
                               </td>
-                              <td><a href="job?id=<?php echo getJobDetail($row['job_id'], $conn)['id']; ?>"><?php echo getJobDetail($row['job_id'], $conn)['title']; ?></a></td>
-                              <td><a href="workroom.html" class="kafe-btn kafe-btn-mint-small"> Go to Workroom</a></td>
+                              <td><a href="job?id=<?php echo getJobDetail($row['job_id'], $conn)['job_id']; ?>"><?php echo getJobDetail($row['job_id'], $conn)['title']; ?></a></td>
+                              <td><a href="workroom?job=<?php echo $row['job_id']; ?>" class="kafe-btn kafe-btn-mint-small"> Go to Workroom</a></td>
                            </tr>
                            <?php endwhile;?>
                         </tbody>
