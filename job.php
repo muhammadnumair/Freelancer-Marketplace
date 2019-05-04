@@ -18,6 +18,9 @@
    // Calculate Time Elapsed
    $sqli = "SELECT * from tbl_proposals where job_id = '$job_id'";
    $proposals = mysqli_query($conn, $sqli);
+
+   $assigbment = getJobAssignment($job_id, $conn);
+   $hired = getJobAssignmentCount($job_id, $conn);
 ?>
 <?php include_once('extras/functions.php'); ?>
 <!-- ==============================================
@@ -26,6 +29,12 @@
 <section class="jobpost">
    <div class="container">
       <div class="row">
+         <?php if(isset($_SESSION['error_msg'])): ?>
+         <div class="alert alert-danger" role="alert" style="font-family: 'Varela Round', sans-serif;">
+            <?php echo $_SESSION['error_msg']; ?>                                
+         </div>
+         <?php endif; ?>
+         <?php unset($_SESSION['error_msg']); ?>
          <div class="card-box-profile">
             <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
                <div class="row bottom-sec">
@@ -56,7 +65,7 @@
                         <p><?php echo getApplicants($job["job_id"], $conn);?></p>
                      </div>
                      <div class="col-lg-2">
-                        <a href="<?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'){echo '#';}else{echo 'applyjob?id='.$job_id;}?>" style="<?php if(getAuthor($user_id, $conn)["user_role"] == 'customer'){echo 'color: currentColor; cursor: not-allowed; opacity: 0.5; text-decoration: none;';}?>" class="kafe-btn kafe-btn-mint-small"><i class="fa fa-align-left"></i> Apply</a>
+                        <a href="<?php echo 'applyjob?id='.$job_id;?>" class="kafe-btn kafe-btn-mint-small"><i class="fa fa-align-left"></i> Apply</a>
                      </div>
                   </div>
                   <!-- /.col-lg-12 -->
@@ -78,6 +87,11 @@
    <div class="container">
       <div class="row">
          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+            <?php if($assigbment['job_status'] == "complete"): ?>
+            <div class="alert alert-success" role="alert" style="font-family: 'Varela Round', sans-serif;">
+               <?php echo "Job is completed successfully"; ?>                                
+            </div>
+         <?php endif; ?>
             <div class="card-box-profile-details">
                <div class="description-profile">
                   <ul class="tr-list resume-info">
@@ -114,9 +128,15 @@
                               </div>
                               <div class="col-lg-12">
                                  <div class="pull-left">
+                                    <?php if(strlen(getProfilePhoto($row["user_id"], $conn)['profile_img']) > 2) : ?>
                                     <a href="freelancer.html">
-                                    <img class="img-responsive" src="assets/img/users/1.jpg" alt="Image">
+                                    <img class="img-responsive" src="<?php echo getProfilePhoto($row['user_id'], $conn)['profile_img']; ?>" alt="Image">
                                     </a>
+                                    <?php else: ?>
+                                    <a href="freelancer.html">
+                                    <img class="img-responsive" src="uploads/profiles/default.jpg" alt="Image">
+                                    </a>
+                                    <?php endif; ?>
                                  </div>
                                  <!-- /.col-lg-2 -->
                                  <h5><a href="#">  <?php echo getAuthor($row["user_id"], $conn)["full_name"]?> </a> </h5>
@@ -184,7 +204,7 @@
                      <p class="bottom">Interviewing</p>
                   </div>
                   <div class="col-sm-4">
-                     <h6>0</h6>
+                     <h6><?php echo $hired; ?></h6>
                      <p class="bottom">Hired</p>
                   </div>
                   <p class="bottom"> Last viewed by client: <b> <?php echo time_elapsed_string($job["updated_on"]); ?> </b></p>
@@ -194,10 +214,21 @@
             <div class="card-box text-center">
                <div class="clearfix"></div>
                <div class="member-card">
-                  <div class="thumb-xl member-thumb m-b-10 center-block">
-                     <img src="assets/img/users/4.jpg" class="img-circle img-thumbnail" alt="profile-image">
-                     <i class="fa fa-star member-star text-success" title="verified user"></i>
-                  </div>
+                  <?php if(strlen(getProfilePhoto($row["user_id"], $conn)['profile_img']) > 2) : ?>
+                     <a href="profile.html">
+                     <div class="thumb-xl member-thumb m-b-10 center-block">
+                        <img src="<?php echo getProfilePhoto($job['user_id'], $conn)['profile_img']; ?>" class="img-circle img-thumbnail" alt="profile-image">
+                        <i class="fa fa-star member-star text-success" title="verified user"></i>
+                     </div>
+                     </a>
+                     <?php else: ?>
+                     <a href="profile.html">
+                     <div class="thumb-xl member-thumb m-b-10 center-block">
+                        <img src="uploads/profiles/default.jpg" class="img-circle img-thumbnail" alt="profile-image">
+                        <i class="fa fa-star member-star text-success" title="verified user"></i>
+                     </div>
+                     </a>
+                  <?php endif; ?>
                   <h5><?php echo getAuthor($job["user_id"], $conn)["full_name"]?></h5>
                   <div class="row">
                      <div class="col-sm-6">

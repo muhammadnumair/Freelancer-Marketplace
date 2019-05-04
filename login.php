@@ -52,6 +52,7 @@
                                     <div class="alert alert-danger" role="alert" style="font-family: 'Varela Round', sans-serif;">
                                       <?php echo $_SESSION['error_msg']; ?>
                                     </div>
+                                    <?php unset($_SESSION['error_msg']); ?>
                                     <?php endif; ?>
                                     <?php if(isset($_SESSION['success_msg'])):?>
                                     <div class="alert alert-success" role="alert" style="font-family: 'Varela Round', sans-serif;"><?php echo $_SESSION['success_msg']; ?>               

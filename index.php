@@ -4,6 +4,11 @@
 <?php
    $sql = "SELECT * FROM tbl_categories";
    $categories = mysqli_query($conn, $sql);
+
+   if(isset($_POST['search'])){
+        $search_term = $_POST['search_term'];
+        header("Location: work?search=".$search_term);
+   }
 ?>
 
 <?php include_once('layouts/header.php'); ?>
@@ -17,15 +22,15 @@
                 <h2>Find the best Freelancers in their finest hour</h2>
                 <h3>Getting a job done has never been easy.</h3>
 
-                <form class="form-horizontal">
+                <form class="form-horizontal" action="" method="POST">
                     <div class="col-md-10 no-padd">
                         <div class="input-group">
-                            <input type="text" placeholder="What do you need to get done?" class="form-control" />
+                            <input type="text" placeholder="What do you need to get done?" class="form-control" name="search_term" />
                         </div>
                     </div>
                     <div class="col-md-2 no-padd">
                         <div class="input-group">
-                            <button type="submit" class="kafe-btn kafe-btn-mint full-width">Let's Go!</button>
+                            <button type="submit" class="kafe-btn kafe-btn-mint full-width" name="search">Let's Go!</button>
                         </div>
                     </div>
                 </form>

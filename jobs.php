@@ -18,6 +18,7 @@
             <div class="box">
                <div class="box-header">
                   <h3 class="box-title">Jobs Posted</h3>
+                  <a href="reports/jobs.php" class="kafe-btn kafe-btn-mint-small" target="_blank">Generate PDF</a>
                </div>
                <!-- /.box-header -->
                <div class="box-body">
@@ -37,15 +38,15 @@
                               <td><a href="job?id=<?php echo $row['job_id']; ?>"><?php echo $row['title']; ?></a></td>
                               <?php if(getJobAssignment($row['job_id'], $conn)):?>
                               <td>
-                                 <img src="assets/img/users/1.jpg" class="img-responsive img-circle pull-left" width="50" height="50" alt="Image"/>
-                                 <a href="profile.html">Anna Morgan</a>
+                                 <img src="<?php echo getAuthor(getJobAssignment($row['job_id'], $conn)['freelancer_id'], $conn)['profile_img']; ?>" class="img-responsive img-circle pull-left" width="50" height="50" alt="Image"/>
+                                 <a href="profile.html"><?php echo getAuthor(getJobAssignment($row['job_id'], $conn)['freelancer_id'], $conn)['full_name']; ?></a>
                               </td>
                               <?php else: ?>
                                  <td><span class="label label-mint">Not Assigned</span></td>
                               <?php endif;?>
                               <td><a href="proposals?job=<?php echo $row['job_id'];?>" class="kafe-btn kafe-btn-mint-small"> View Proposals</a></td>
                               <?php if(getJobAssignmentCount($row['job_id'], $conn) > 0):?>
-                              <td><a href="workroom.html" class="kafe-btn kafe-btn-mint-small"> Go to Workroom</a></td>
+                              <td><a href="workroom?job=<?php echo $row['job_id']; ?>" class="kafe-btn kafe-btn-mint-small"> Go to Workroom</a></td>
                               <?php else: ?>
                               <td>
                                  <a href="#" class="btn btn-success btn-xs" data-toggle="tooltip" title="Edit"><span class="fa fa-edit"></span></a>
